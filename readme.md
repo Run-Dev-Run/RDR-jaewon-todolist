@@ -1,3 +1,8 @@
+#TODO LIST 연습용 토이 프로젝트
+RESTFUL한 REST API
+
+SWAGGER
+
 # 객체 관계
 Member 1 : N Diary
 
