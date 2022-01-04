@@ -84,12 +84,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @SneakyThrows
     private void configureLogout(HttpSecurity http) {
         http
-                .formLogin()
-                .loginPage("/login")
-                .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/")
-                .usernameParameter("username")
-                .passwordParameter("password")
+                .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true)
+                .deleteCookies("remember-me", "JSESSIONID")
                 .and()
                 .exceptionHandling();
     }

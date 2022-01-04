@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
-public abstract class AbstractEntityBase<C extends EntityConverter> implements EntityBase<C> {
+public abstract class AbstractEntity<C extends EntityConverter> implements EntityBase<C> {
     @CreatedDate
     @Column(name = "CREATE_DATE", nullable = false)
     protected LocalDateTime createdDate;
@@ -20,6 +20,6 @@ public abstract class AbstractEntityBase<C extends EntityConverter> implements E
     @Column(name = "MODIFIED_DATE", nullable = false)
     protected LocalDateTime modifiedDate;
 
-    protected AbstractEntityBase() {
+    protected AbstractEntity() {
     }
 }

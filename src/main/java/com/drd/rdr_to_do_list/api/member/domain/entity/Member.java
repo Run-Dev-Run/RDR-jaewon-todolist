@@ -1,6 +1,6 @@
 package com.drd.rdr_to_do_list.api.member.domain.entity;
 
-import com.drd.rdr_to_do_list.api.common.domain.entity.AbstractEntityBase;
+import com.drd.rdr_to_do_list.api.common.domain.entity.AbstractEntity;
 import com.drd.rdr_to_do_list.api.common.domain.entity.EntityConverter;
 import com.drd.rdr_to_do_list.api.member.dto.MemberDto;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import javax.persistence.*;
 
 @Table(name = "T_MEMBER")
 @Entity
-public class Member extends AbstractEntityBase<Member.Converter> {
+public class Member extends AbstractEntity<Member.Converter> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MEMBER_ID")
