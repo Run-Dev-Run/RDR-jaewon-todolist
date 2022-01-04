@@ -22,7 +22,7 @@ public class JwtToken {
     }
 
     public static Optional<JwtToken> fromHttpServletRequest(HttpServletRequest request) {
-        return Optional.ofNullable(WebUtils.getCookie(request, "X-AUTH-TOKEN"))
+        return Optional.ofNullable(WebUtils.getCookie(request, JwtConfig.TOKEN_NAME()))
                 .map(Cookie::getValue)
                 .map(JwtToken::new);
     }
