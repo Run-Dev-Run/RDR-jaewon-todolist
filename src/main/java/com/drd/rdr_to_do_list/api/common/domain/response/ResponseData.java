@@ -1,20 +1,25 @@
 package com.drd.rdr_to_do_list.api.common.domain.response;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.time.LocalDateTime;
+@ApiModel(value = "일반적인 정상 응답 DTO", parent = AbstractResponseData.class)
+public class ResponseData extends AbstractResponseData {
+    private final String message;
+    private final Object data;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public abstract class ResponseData {
-    private final LocalDateTime time;
-
-    public ResponseData() {
-        this.time = LocalDateTime.now();
+    public ResponseData(final String message, final Object data) {
+        this.message = message;
+        this.data = data;
     }
 
-    public ResponseEntity<ResponseData> newResponseEntity(HttpStatus status) {
+    public ResponseData(final String message) {
+        this(message, null);
+    }
+
+    @Override
+    public ResponseEntity<ResponseData> newResponseEntity(final HttpStatus status) {
         return new ResponseEntity<>(this, status);
     }
 }
