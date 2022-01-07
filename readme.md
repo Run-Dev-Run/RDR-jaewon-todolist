@@ -2,8 +2,6 @@
 RESTFUL한 REST API
 
 # 객체 관계
-Member 1 : N Diary
-
 Diary 1 : N Todo
 
 Todo 1 : N Memo
@@ -24,9 +22,3 @@ Todo 1 : N Memo
 [] Todo 삭제
 
 [] Todo 수정
-
-[] Memo 추가
-
-[] Memo 삭제
-
-[] Memo 수정
