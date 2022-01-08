@@ -1,4 +1,4 @@
-package com.drd.rdr_to_do_list.api.common.domain.exception;
+package com.drd.rdr_to_do_list.api.common.exception;
 
 public enum CommonErrorMessage {
     EXCEPTION("알 수 없는 오류가 발생 했습니다.");

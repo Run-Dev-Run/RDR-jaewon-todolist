@@ -1,14 +1,13 @@
 package com.drd.rdr_to_do_list.api.common.domain.response;
 
+import io.swagger.annotations.ApiModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+@ApiModel(value = "오류 응답", parent = AbstractResponseData.class)
 public class ErrorResponseData extends AbstractResponseData {
-    // TODO Cache 추가
-    private final String message;
-
     public ErrorResponseData(final String message) {
-        this.message = message;
+        super(message);
     }
 
     @Override
