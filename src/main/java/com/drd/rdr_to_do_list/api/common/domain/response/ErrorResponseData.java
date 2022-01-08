@@ -6,8 +6,16 @@ import org.springframework.http.ResponseEntity;
 
 @ApiModel(value = "오류 응답", parent = AbstractResponseData.class)
 public class ErrorResponseData extends AbstractResponseData {
-    public ErrorResponseData(final String message) {
+    private ErrorResponseData(final String message) {
         super(message);
+    }
+
+    public static ErrorResponseData fromException(Exception e) {
+        return new ErrorResponseData(e.getMessage());
+    }
+
+    public static ErrorResponseData of(String message) {
+        return new ErrorResponseData(message);
     }
 
     @Override
