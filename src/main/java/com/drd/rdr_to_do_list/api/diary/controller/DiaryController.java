@@ -20,32 +20,31 @@ import java.util.Objects;
 public class DiaryController extends DiaryControllerForSwagger {
     private final DiaryService diaryService;
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(name = "Diary 목록 조회", path = { "", "/{pageNumber}" })
-    public ResponseEntity<PageResponseData<DiaryResponse.ListItem>> list(
+    public PageResponseData<DiaryResponse.ListItem> list(
             @PathVariable(value = "pageNumber", required = false) @ApiParam(value = "Page Number", example = "1") Integer pageNumber
     ) {
         Page<DiaryResponse.ListItem> page = diaryService.list(
                 Objects.requireNonNullElse(pageNumber, 0)
         );
-        return PageResponseData.fromPage(DiaryResponseMessage.PAGE, page)
-                .newResponseEntity(HttpStatus.OK);
+        return PageResponseData.fromPage(DiaryResponseMessage.PAGE, page);
     }
 
-    // ModelAttribute 대신 RequestBody 쓰기
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(name = "Diary 추가")
-    public ResponseEntity<ResponseData<String>> add(
+    public ResponseData<String> add(
             @RequestParam("name") @ApiParam(value = "다이어리 이름", example = "2022년 할일", required = true) String name
     ) {
         diaryService.add(name);
-        return ResponseData.of(DiaryResponseMessage.ADD)
-                .newResponseEntity(HttpStatus.CREATED);
+        return ResponseData.of(DiaryResponseMessage.ADD);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @PutMapping(name = "Diary 정보 변경", path = "name")
     @Override
-    public ResponseEntity<ResponseData<String>> edit(@RequestBody DiaryRequest.Edit request) {
+    public ResponseData<String> edit(@RequestBody DiaryRequest.Edit request) {
         // TODO
-        return ResponseData.of(DiaryResponseMessage.EDIT)
-                .newResponseEntity(HttpStatus.OK);
+        return ResponseData.of(DiaryResponseMessage.EDIT);
     }
 }

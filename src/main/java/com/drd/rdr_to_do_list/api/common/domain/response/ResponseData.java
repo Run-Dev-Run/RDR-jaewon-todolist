@@ -22,9 +22,4 @@ public class ResponseData<R> extends AbstractResponseData {
     public static ResponseData<String> of(final String message) {
         return of(message, null);
     }
-
-    @Override
-    public ResponseEntity<ResponseData<R>> newResponseEntity(final HttpStatus status) {
-        return new ResponseEntity<>(this, status);
-    }
 }

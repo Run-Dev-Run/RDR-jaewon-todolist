@@ -15,7 +15,7 @@ public abstract class DiaryControllerForSwagger {
             @ApiResponse(code = 200, message = DiaryResponseMessage.PAGE)
     })
     @ApiOperation(value = "Diray 목록 조회")
-    public abstract ResponseEntity<PageResponseData<DiaryResponse.ListItem>> list(Integer pageNumber);
+    public abstract PageResponseData<DiaryResponse.ListItem> list(Integer pageNumber);
 
     @ApiResponses({
             @ApiResponse(code = 201,
@@ -27,11 +27,11 @@ public abstract class DiaryControllerForSwagger {
             @ApiResponse(code = 409, message = DiaryErrorMessage.DUPLICATE_DIARY_NAME)
     })
     @ApiOperation(value = "Diary 추가")
-    public abstract ResponseEntity<ResponseData<String>> add(String name);
+    public abstract ResponseData<String> add(String name);
 
     @ApiResponses({
             @ApiResponse(code = 200, message = DiaryResponseMessage.EDIT)
     })
     @ApiOperation(value = "Diary 정보 변경")
-    public abstract ResponseEntity<ResponseData<String>> edit(DiaryRequest.Edit request);
+    public abstract ResponseData<String> edit(DiaryRequest.Edit request);
 }

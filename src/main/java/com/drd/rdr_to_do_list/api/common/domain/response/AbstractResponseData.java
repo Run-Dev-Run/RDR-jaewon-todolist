@@ -21,6 +21,4 @@ public abstract class AbstractResponseData {
         this.time = LocalDateTime.now();
         this.message = message;
     }
-
-    public abstract ResponseEntity<?> newResponseEntity(HttpStatus status);
 }

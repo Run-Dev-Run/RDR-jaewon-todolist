@@ -21,9 +21,4 @@ public class PageResponseData<E> extends AbstractResponseData {
         PageResponse<E> pageResponse = new PageResponse<>(page.getContent(), page.getNumber(), page.getTotalPages());
         return new PageResponseData<>(message, pageResponse);
     }
-
-    @Override
-    public ResponseEntity<PageResponseData<E>> newResponseEntity(final HttpStatus status) {
-        return new ResponseEntity<>(this, status);
-    }
 }

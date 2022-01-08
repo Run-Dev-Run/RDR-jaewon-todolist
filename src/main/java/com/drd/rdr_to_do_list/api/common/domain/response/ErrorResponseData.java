@@ -17,9 +17,4 @@ public class ErrorResponseData extends AbstractResponseData {
     public static ErrorResponseData of(String message) {
         return new ErrorResponseData(message);
     }
-
-    @Override
-    public ResponseEntity<ErrorResponseData> newResponseEntity(final HttpStatus status) {
-        return new ResponseEntity<>(this, status);
-    }
 }
