@@ -1,8 +1,6 @@
 package com.drd.rdr_to_do_list.api.diary.dto;
 
-import com.drd.rdr_to_do_list.api.common.domain.response.AbstractResponseData;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;

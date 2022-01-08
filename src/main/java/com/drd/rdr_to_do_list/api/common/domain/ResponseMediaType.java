@@ -1,4 +1,4 @@
-package com.drd.rdr_to_do_list.api.common.domain.response;
+package com.drd.rdr_to_do_list.api.common.domain;
 
 public class ResponseMediaType {
     private ResponseMediaType() {

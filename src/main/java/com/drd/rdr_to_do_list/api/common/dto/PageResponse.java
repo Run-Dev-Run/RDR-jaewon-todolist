@@ -3,6 +3,7 @@ package com.drd.rdr_to_do_list.api.common.dto;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -20,5 +21,9 @@ public class PageResponse<E> {
         this.elements = elements;
         this.currentPage = currentPage;
         this.totalPageSize = totalPageSize;
+    }
+
+    public static <E> PageResponse<E> fromPage(Page<E> page) {
+        return new PageResponse<>(page.getContent(), page.getNumber(), page.getTotalPages());
     }
 }

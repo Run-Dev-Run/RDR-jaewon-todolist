@@ -1,6 +1,6 @@
 package com.drd.rdr_to_do_list.api.common.exception;
 
-public abstract class DuplicateAggregateException extends RuntimeException {
+public abstract class DuplicateAggregateException extends DisplayException {
     public DuplicateAggregateException() {
     }
 
