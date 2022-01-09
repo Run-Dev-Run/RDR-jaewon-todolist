@@ -2,6 +2,7 @@ package com.drd.rdr_to_do_list.api.diary.domain;
 
 import com.drd.rdr_to_do_list.api.common.domain.entity.AbstractEntity;
 import com.drd.rdr_to_do_list.api.common.domain.entity.EntityConverter;
+import com.drd.rdr_to_do_list.api.diary.dto.DiaryBundle;
 import com.drd.rdr_to_do_list.api.diary.dto.DiaryResponse;
 import lombok.Builder;
 
@@ -33,6 +34,15 @@ public class Diary extends AbstractEntity<Diary.Converter> {
     @Builder
     public Diary(final String name) {
         this.name = name;
+    }
+
+    public void edit(DiaryBundle.DetailEdit bundle) {
+        this.name = bundle.getName();
+    }
+
+    public void delete() {
+        // TODO :: 모든 TODO 리스트에서도 delete 처리 해줘야 함
+        super.delete();
     }
 
     @Override

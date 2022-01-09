@@ -21,15 +21,22 @@ public abstract class DiaryControllerForSwagger {
                     examples = @Example(
                             @ExampleProperty(mediaType = ResponseMediaType.JSON, value = DiaryResponseMessage.ADD)
                     )
-            ),
-            @ApiResponse(code = 409, message = DiaryErrorMessage.DUPLICATE_DIARY_NAME)
+            )
     })
     @ApiOperation(value = "Diary 추가")
-    public abstract String add(String name);
+    public abstract String add(DiaryRequest.AddEdit request);
 
     @ApiResponses({
-            @ApiResponse(code = 200, message = DiaryResponseMessage.EDIT)
+            @ApiResponse(code = 200, message = DiaryResponseMessage.EDIT),
+            @ApiResponse(code = 406, message = DiaryErrorMessage.DIARY_NOT_FOUND)
     })
     @ApiOperation(value = "Diary 정보 변경")
-    public abstract String edit(DiaryRequest.Edit request);
+    public abstract String edit(DiaryRequest.AddEdit request);
+
+    @ApiResponses({
+            @ApiResponse(code = 200, message = DiaryResponseMessage.DELETE),
+            @ApiResponse(code = 406, message = DiaryErrorMessage.DIARY_NOT_FOUND)
+    })
+    @ApiOperation(value = "Diary 삭제")
+    public abstract String delete(long id);
 }

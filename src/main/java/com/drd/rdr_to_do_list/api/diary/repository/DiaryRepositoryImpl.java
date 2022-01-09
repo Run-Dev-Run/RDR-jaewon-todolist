@@ -8,14 +8,16 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
 import java.util.Objects;
+import java.util.Optional;
 
 import static com.drd.rdr_to_do_list.api.diary.domain.QDiary.diary;
 
 @Repository
-public class QDiaryRepositoryImpl extends AbstractQuerydslRepositorySupport<Diary> implements QDiaryRepository {
-    public QDiaryRepositoryImpl(final JPAQueryFactory factory) {
-        super(Diary.class, factory);
+public class DiaryRepositoryImpl extends AbstractQuerydslRepositorySupport<Diary> implements DiaryRepository {
+    public DiaryRepositoryImpl(final JPAQueryFactory factory, EntityManager entityManager) {
+        super(Diary.class, factory, entityManager);
     }
 
     @Override
@@ -27,6 +29,18 @@ public class QDiaryRepositoryImpl extends AbstractQuerydslRepositorySupport<Diar
                 query,
                 pageBundle,
                 diary.createdDate.desc()
+        );
+    }
+
+    @Override
+    public Optional<Diary> findById(final long id) {
+        return Optional.ofNullable(
+                factory.selectFrom(diary)
+                        .where(
+                                diary.id.eq(id),
+                                diary.deleted.isFalse()
+                        )
+                        .fetchFirst()
         );
     }
 
