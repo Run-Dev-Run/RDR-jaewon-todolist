@@ -10,14 +10,14 @@ public class DiaryBundle {
     @Getter
     @Builder
     @AllArgsConstructor
-    public static class Add {
-        private String name;
+    public static class Search {
+        private int page;
     }
 
     @Getter
     @Builder
     @AllArgsConstructor
-    public static class DetailEdit {
-        private String name;
+    public static class AddEdit {
+        private String diaryName;
     }
 }

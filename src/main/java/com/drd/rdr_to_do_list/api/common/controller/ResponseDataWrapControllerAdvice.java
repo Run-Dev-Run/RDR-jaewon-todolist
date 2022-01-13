@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @SuppressWarnings({"NullableProblems", "ConstantConditions"})
@@ -46,14 +47,14 @@ public class ResponseDataWrapControllerAdvice implements ResponseBodyAdvice<Obje
 
     @SneakyThrows
     private Object wrappedResponseData(final ResponseData responseData, final MethodParameter methodParameter, final Object returnValue) {
-        CommonResponseData<?> commonResponseData = toCommonResponseData(responseData, returnValue);
+        CommonResponseData<Object> commonResponseData = toCommonResponseData(responseData, returnValue);
         if (isRequiredSelfTransformReturnType(methodParameter)) {
             return objectMapper.writeValueAsString(commonResponseData);
         }
         return commonResponseData;
     }
 
-    private CommonResponseData<?> toCommonResponseData(ResponseData responseData, Object returnValue) {
+    private CommonResponseData<Object> toCommonResponseData(ResponseData responseData, Object returnValue) {
         if (responseData.messageOnly()) {
             return new CommonResponseData<>(returnValue.toString());
         }

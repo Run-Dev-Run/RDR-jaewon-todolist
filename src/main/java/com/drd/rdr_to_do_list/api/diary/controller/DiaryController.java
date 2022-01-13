@@ -1,5 +1,19 @@
 package com.drd.rdr_to_do_list.api.diary.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.drd.rdr_to_do_list.api.common.annotation.ResponseData;
 import com.drd.rdr_to_do_list.api.common.dto.PageResponse;
 import com.drd.rdr_to_do_list.api.diary.converter.DiaryBundleConverter;
@@ -7,15 +21,11 @@ import com.drd.rdr_to_do_list.api.diary.dto.DiaryBundle;
 import com.drd.rdr_to_do_list.api.diary.dto.DiaryRequest;
 import com.drd.rdr_to_do_list.api.diary.dto.DiaryResponse;
 import com.drd.rdr_to_do_list.api.diary.service.DiaryService;
+
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.Objects;
-
-@RequestMapping("api/diary")
+@RequestMapping("api/diaries")
 @RequiredArgsConstructor
 @RestController
 public class DiaryController extends DiaryControllerForSwagger {
@@ -23,22 +33,23 @@ public class DiaryController extends DiaryControllerForSwagger {
     private final DiaryService diaryService;
 
     @ResponseData(code = HttpStatus.OK, message = DiaryResponseMessage.PAGE)
-    @GetMapping(name = "Diary 목록 조회", path = { "", "/{pageNumber}" })
-    public PageResponse<DiaryResponse.ListItem> list(
-            @PathVariable(value = "pageNumber", required = false) @ApiParam(value = "Page Number", example = "0") Integer pageNumber
-    ) {
-        Page<DiaryResponse.ListItem> page = diaryService.list(
-                Objects.requireNonNullElse(pageNumber, 0)
-        );
+    @GetMapping(name = "Diary 목록 조회", path = "search")
+    public PageResponse<DiaryResponse.ListItem> search(@RequestParam DiaryRequest.Search request) {
+        DiaryBundle.Search searchBundle = diaryBundleConverter.toSearch(request);
+        Page<DiaryResponse.ListItem> page = diaryService.list(searchBundle);
         return PageResponse.fromPage(page);
+    }
+
+    @ResponseData(code = HttpStatus.OK, message = DiaryResponseMessage.DETAIL)
+    @GetMapping(name = "Diary 정보 조회", path = "{id}")
+    public DiaryResponse.Detail detail(@PathVariable("id") @ApiParam("다이어리 ID") long diaryId) {
+        return diaryService.get(diaryId);
     }
 
     @ResponseData(code = HttpStatus.CREATED, messageOnly = true)
     @PostMapping(name = "Diary 추가")
-    public String add(
-            @RequestBody DiaryRequest.AddEdit request
-    ) {
-        DiaryBundle.Add addBundle = diaryBundleConverter.toAdd(request);
+    public String add(@RequestBody DiaryRequest.AddEdit request) {
+        DiaryBundle.AddEdit addBundle = diaryBundleConverter.toAdd(request);
         diaryService.add(addBundle);
 
         return DiaryResponseMessage.ADD;
@@ -47,20 +58,16 @@ public class DiaryController extends DiaryControllerForSwagger {
     @ResponseData(code = HttpStatus.OK, messageOnly = true)
     @DeleteMapping(name = "Diary 삭제")
     @Override
-    public String delete(
-            @RequestParam("id") @ApiParam(value = "삭제할 다이어리 ID", example = "1", required = true) final long id
-    ) {
-        diaryService.delete(id);
+    public String delete(@RequestBody DiaryRequest.Delete request) {
+        diaryService.delete(request.getId());
         return DiaryResponseMessage.DELETE;
     }
 
     @ResponseData(code = HttpStatus.OK, messageOnly = true)
-    @PutMapping(name = "Diary 정보 변경")
+    @PutMapping(name = "Diary 전체 정보 변경")
     @Override
-    public String edit(
-            @RequestBody DiaryRequest.AddEdit request
-    ) {
-        DiaryBundle.DetailEdit editBundle = diaryBundleConverter.toDetailEdit(request);
+    public String addEdit(@RequestBody DiaryRequest.AddEdit request) {
+        DiaryBundle.AddEdit editBundle = diaryBundleConverter.toDetailEdit(request);
         diaryService.edit(request.getId(), editBundle);
         return DiaryResponseMessage.EDIT;
     }

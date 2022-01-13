@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DiaryEntityConverter {
-    public Diary toEntity(DiaryBundle.Add bundle) {
+    public Diary toDiary(DiaryBundle.AddEdit bundle) {
         return Diary.builder()
-                .name(bundle.getName())
+                .name(bundle.getDiaryName())
                 .build();
     }
 }

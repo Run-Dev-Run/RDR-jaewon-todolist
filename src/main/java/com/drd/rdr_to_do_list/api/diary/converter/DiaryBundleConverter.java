@@ -1,20 +1,27 @@
 package com.drd.rdr_to_do_list.api.diary.converter;
 
+import org.springframework.stereotype.Component;
+
 import com.drd.rdr_to_do_list.api.diary.dto.DiaryBundle;
 import com.drd.rdr_to_do_list.api.diary.dto.DiaryRequest;
-import org.springframework.stereotype.Component;
 
 @Component
 public class DiaryBundleConverter {
-    public DiaryBundle.Add toAdd(DiaryRequest.AddEdit request) {
-        return DiaryBundle.Add.builder()
-                .name(request.getName())
+    public DiaryBundle.Search toSearch(DiaryRequest.Search request) {
+        return DiaryBundle.Search.builder()
+            .page(request.getPage())
+            .build();
+    }
+
+    public DiaryBundle.AddEdit toAdd(DiaryRequest.AddEdit request) {
+        return DiaryBundle.AddEdit.builder()
+                .diaryName(request.getDiaryName())
                 .build();
     }
 
-    public DiaryBundle.DetailEdit toDetailEdit(DiaryRequest.AddEdit request) {
-        return DiaryBundle.DetailEdit.builder()
-                .name(request.getName())
+    public DiaryBundle.AddEdit toDetailEdit(DiaryRequest.AddEdit request) {
+        return DiaryBundle.AddEdit.builder()
+                .diaryName(request.getDiaryName())
                 .build();
     }
 }

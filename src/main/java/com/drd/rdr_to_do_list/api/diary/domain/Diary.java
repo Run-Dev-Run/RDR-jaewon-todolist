@@ -1,12 +1,22 @@
 package com.drd.rdr_to_do_list.api.diary.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
+import com.drd.rdr_to_do_list.api.common.annotation.EntityDetail;
 import com.drd.rdr_to_do_list.api.common.domain.entity.AbstractEntity;
 import com.drd.rdr_to_do_list.api.common.domain.entity.EntityConverter;
+import com.drd.rdr_to_do_list.api.common.exception.entitynotfound.EntityNameForException;
 import com.drd.rdr_to_do_list.api.diary.dto.DiaryBundle;
 import com.drd.rdr_to_do_list.api.diary.dto.DiaryResponse;
-import lombok.Builder;
 
-import javax.persistence.*;
+import lombok.Builder;
 
 @Table(name = "T_DIARY",
         uniqueConstraints = {
@@ -18,6 +28,7 @@ import javax.persistence.*;
             @Index(name = "DIARY_INDEX_NAME", columnList = "DIARY_NAME")
         }
 )
+@EntityDetail(nameForException = EntityNameForException.DIARY)
 @Entity
 public class Diary extends AbstractEntity<Diary.Converter> {
     @Id
@@ -36,8 +47,8 @@ public class Diary extends AbstractEntity<Diary.Converter> {
         this.name = name;
     }
 
-    public void edit(DiaryBundle.DetailEdit bundle) {
-        this.name = bundle.getName();
+    public void edit(DiaryBundle.AddEdit bundle) {
+        this.name = bundle.getDiaryName();
     }
 
     public void delete() {
@@ -60,9 +71,16 @@ public class Diary extends AbstractEntity<Diary.Converter> {
         public DiaryResponse.ListItem toListItem() {
             return DiaryResponse.ListItem.builder()
                     .id(diary.id)
-                    .name(diary.name)
+                    .diaryName(diary.name)
                     .createdTime(diary.createdDate)
                     .build();
+        }
+
+        public DiaryResponse.Detail toDetail() {
+            return DiaryResponse.Detail.builder()
+                .id(diary.id)
+                .diaryName(diary.name)
+                .build();
         }
     }
 }

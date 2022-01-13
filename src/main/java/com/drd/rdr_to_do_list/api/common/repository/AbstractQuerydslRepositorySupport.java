@@ -1,6 +1,6 @@
 package com.drd.rdr_to_do_list.api.common.repository;
 
-import com.drd.rdr_to_do_list.api.common.domain.PageBundle;
+import com.drd.rdr_to_do_list.api.common.domain.Paging;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -23,10 +23,10 @@ public abstract class AbstractQuerydslRepositorySupport<T> extends QuerydslRepos
         this.entityManager = entityManager;
     }
 
-    protected final <R> Page<R> findPage(JPAQuery<R> query, PageBundle pageBundle, OrderSpecifier<?> orderBy) {
+    protected final <R> Page<R> findPage(JPAQuery<R> query, Paging paging, OrderSpecifier<?> orderBy) {
         long fetchCount = query.fetchCount();
 
-        Pageable pageable = pageBundle.toPageable(fetchCount);
+        Pageable pageable = paging.toPageable(fetchCount);
         if (Objects.nonNull(orderBy)) {
             query = query.orderBy(orderBy);
         }

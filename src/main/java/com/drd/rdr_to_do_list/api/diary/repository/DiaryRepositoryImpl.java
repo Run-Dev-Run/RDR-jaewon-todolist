@@ -1,18 +1,22 @@
 package com.drd.rdr_to_do_list.api.diary.repository;
 
-import com.drd.rdr_to_do_list.api.common.domain.PageBundle;
-import com.drd.rdr_to_do_list.api.common.repository.AbstractQuerydslRepositorySupport;
-import com.drd.rdr_to_do_list.api.diary.domain.Diary;
-import com.querydsl.jpa.impl.JPAQuery;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Repository;
+import static com.drd.rdr_to_do_list.api.diary.domain.QDiary.*;
 
-import javax.persistence.EntityManager;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.drd.rdr_to_do_list.api.diary.domain.QDiary.diary;
+import javax.persistence.EntityManager;
+
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Repository;
+
+import com.drd.rdr_to_do_list.api.common.domain.Paging;
+import com.drd.rdr_to_do_list.api.common.domain.PageSize;
+import com.drd.rdr_to_do_list.api.common.repository.AbstractQuerydslRepositorySupport;
+import com.drd.rdr_to_do_list.api.diary.domain.Diary;
+import com.drd.rdr_to_do_list.api.diary.dto.DiaryBundle;
+import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 
 @Repository
 public class DiaryRepositoryImpl extends AbstractQuerydslRepositorySupport<Diary> implements DiaryRepository {
@@ -21,13 +25,13 @@ public class DiaryRepositoryImpl extends AbstractQuerydslRepositorySupport<Diary
     }
 
     @Override
-    public Page<Diary> findPage(final PageBundle pageBundle) {
+    public Page<Diary> findPage(final DiaryBundle.Search bundle) {
         JPAQuery<Diary> query = factory.selectFrom(diary)
                 .where(diary.deleted.isFalse());
 
         return super.findPage(
                 query,
-                pageBundle,
+                new Paging(PageSize.DIARY_LIST, bundle.getPage()),
                 diary.createdDate.desc()
         );
     }
