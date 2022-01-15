@@ -1,7 +1,8 @@
 package com.drd.rdr_to_do_list.api.common.domain;
 
 public enum PageSize {
-    DIARY_LIST(15);
+    DIARY_LIST(15),
+    TODO_LIST(30);
 
     private final int size;
 

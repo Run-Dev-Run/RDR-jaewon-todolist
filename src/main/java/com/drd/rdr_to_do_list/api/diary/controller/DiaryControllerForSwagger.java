@@ -12,10 +12,10 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.Example;
 import io.swagger.annotations.ExampleProperty;
 
-@Api(tags = "Diary 조작 Controller")
+@Api(tags = "Diary Controller")
 public abstract class DiaryControllerForSwagger {
     @ApiResponses({
-        @ApiResponse(code = 200, message = DiaryResponseMessage.PAGE)
+        @ApiResponse(code = 200, message = DiaryResponseMessage.SEARCH)
     })
     @ApiOperation(value = "Diray 목록 조회")
     public abstract PageResponse<DiaryResponse.ListItem> search(DiaryRequest.Search request);
